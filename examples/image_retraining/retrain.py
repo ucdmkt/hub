@@ -358,7 +358,7 @@ def create_bottleneck_file(bottleneck_path, image_lists, label_name, index,
                            decoded_image_tensor, resized_input_tensor,
                            bottleneck_tensor):
   """Create a single bottleneck file."""
-  tf.logging.debug('Creating bottleneck at ' + bottleneck_path)
+  tf.logging.info('Creating bottleneck at ' + bottleneck_path)
   image_path = get_image_path(image_lists, label_name, index,
                               image_dir, category)
   if not tf.gfile.Exists(image_path):
@@ -416,6 +416,8 @@ def get_or_create_bottleneck(sess, image_lists, label_name, index, image_dir,
                            image_dir, category, sess, jpeg_data_tensor,
                            decoded_image_tensor, resized_input_tensor,
                            bottleneck_tensor)
+  tf.logging.info(
+      'get_or_create_bottleneck: reading %s' % bottleneck_path)
   with open(bottleneck_path, 'r') as bottleneck_file:
     bottleneck_string = bottleneck_file.read()
   did_hit_error = False
@@ -464,6 +466,8 @@ def cache_bottlenecks(sess, image_lists, image_dir, bottleneck_dir,
   Returns:
     Nothing.
   """
+  tf.logging.info('caching_bottleneck...')
+
   how_many_bottlenecks = 0
   ensure_dir_exists(bottleneck_dir)
   for label_name, label_lists in image_lists.items():
